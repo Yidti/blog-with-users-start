@@ -25,7 +25,6 @@ def admin_only(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
@@ -41,7 +40,6 @@ if uri.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -63,11 +61,7 @@ class User(UserMixin, db.Model):
     # *******Add parent relationship*******#
     # "comment_author" refers to the comment_author property in the Comment class.
     comments = relationship("Comment", back_populates="comment_author")
-# Create all the tables in the database
-# db.create_all()
-
 ##CONFIGURE TABLES
-
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
     id = db.Column(db.Integer, primary_key=True)
@@ -83,7 +77,6 @@ class BlogPost(db.Model):
     img_url = db.Column(db.String(250), nullable=False)
     #***************Parent Relationship*************#
     comments = relationship("Comment", back_populates="parent_post")
-# db.create_all()
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
